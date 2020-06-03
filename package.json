@@ -9,7 +9,14 @@
   },
   "dependencies": {
     "next": "9.4.4",
+    "next-tinacms-github": "^0.1.1",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "react-tinacms-github": "^0.4.1",
+    "styled-components": "^5.1.1",
+    "tinacms": "^0.21.0"
+  },
+  "devDependencies": {
+    "hygen-next-tinacms-github": "https://github.com/dwalkr/hygen-next-tinacms-github"
   }
 }

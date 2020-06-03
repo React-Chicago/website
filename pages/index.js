@@ -1,6 +1,20 @@
+import {
+  getGithubPreviewProps,
+  parseJson,
+  useGithubJsonForm,
+} from 'next-tinacms-github'
+import { GetStaticProps } from 'next'
+
 import Head from 'next/head'
 
-export default function Home() {
+export default function Home({ file }) {
+  const formOptions = {
+    label: 'Home Page',
+    fields: [{ name: 'title', component: 'text' }],
+  }
+
+  const [data, form] = useGithubJsonForm(file, formOptions)
+
   return (
     <div className="container">
       <Head>
@@ -9,9 +23,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+        <h1 className="title">{data.title}</h1>
 
         <p className="description">
           Get started by editing <code>pages/index.js</code>
@@ -206,4 +218,26 @@ export default function Home() {
       `}</style>
     </div>
   )
+}
+
+export const getStaticProps = async function ({ preview, previewData }) {
+  if (preview) {
+    return getGithubPreviewProps({
+      ...previewData,
+      fileRelativePath: 'content/home.json',
+      parse: parseJson,
+    })
+  }
+
+  return {
+    props: {
+      sourceProvider: null,
+      error: null,
+      preview: false,
+      file: {
+        fileRelativePath: 'data/home.json',
+        data: (await import('../data/home.json')).default,
+      },
+    },
+  }
 }
